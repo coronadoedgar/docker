@@ -1,0 +1,26 @@
+version: '2'
+services:
+  db_odoo:
+    image: postgres:9.5
+    env_file: .env
+    volumes:
+      - vol_odoo:/var/lib/postgresql/data
+    ports:
+      - "5433:5432"
+
+  server_odoo:
+    build: .
+    volumes:
+      - web_odoo:/var/lib/odoo
+      - ./src:/opt/odoo/server
+    command: python odoo.py -c odoo-server.conf
+    ports:
+      - "8070:8069"
+    depends_on:
+      - db_odoo
+    links:
+      - db_odoo
+
+volumes:
+  vol_odoo:
+  web_odoo:
