@@ -1,0 +1,9 @@
+version: '2'
+services:
+  app_node:
+    build: .
+    volumes:
+      - ./apps-angular:/apps/angular
+    ports:
+      - "8080:8000"
+      - "3000:3000"
