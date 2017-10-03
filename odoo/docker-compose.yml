@@ -13,7 +13,6 @@ services:
     volumes:
       - web_odoo:/var/lib/odoo
       - ./src:/opt/odoo/server
-    command: python odoo.py -c odoo-server.conf
     ports:
       - "8070:8069"
     depends_on:

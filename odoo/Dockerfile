@@ -9,6 +9,7 @@ RUN set -x; \
         && apt-get install -y --no-install-recommends \
             ca-certificates \
             curl \
+            vim \
             node-less \
             node-clean-css \
             python-gevent \
@@ -32,12 +33,15 @@ RUN groupadd -r $ODOO_USER && useradd -r -g $ODOO_USER $ODOO_USER
 RUN mkdir -p $BASE_HOME$ODOO_HOME
 
 WORKDIR $BASE_HOME$ODOO_HOME
+
 ADD ./src $BASE_HOME$ODOO_HOME
 RUN pip install -r requirements.txt \
-    && pip install pyinotify \
-    && pip install XlsxWriter
+	&& pip install pyinotify \
+	&& pip install XlsxWriter \
+	&& pip install boto3
 
-RUN chown $ODOO_USER:$ODOO_USER -R $BASE_HOME/* \
-    && mkdir -p /var/lib/odoo \
-	&& chown $ODOO_USER:$ODOO_USER -R /var/*
+RUN chown $ODOO_USER:$ODOO_USER -R $BASE_HOME
+RUN mkdir -p /var/lib/odoo
+RUN chown $ODOO_USER:$ODOO_USER -R /var/*
+
 USER $ODOO_USER
