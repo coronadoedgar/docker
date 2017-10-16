@@ -41,6 +41,7 @@ RUN pip install -r requirements.txt \
 	&& pip install boto3
 
 RUN chown $ODOO_USER:$ODOO_USER -R $BASE_HOME
+RUN python setup.py install
 RUN mkdir -p /var/lib/odoo
 RUN chown $ODOO_USER:$ODOO_USER -R /var/*
 

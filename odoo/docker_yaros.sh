@@ -1,6 +1,10 @@
 #!/bin/bash
 
 my_user=''
+link_odoo8='https://nightly.odoo.com/8.0/nightly/src/odoo_8.0.latest.tar.gz'
+link_odoo10='https://nightly.odoo.com/8.0/nightly/src/odoo_8.0.latest.tar.gz'
+link_odoo11='https://nightly.odoo.com/11.0/nightly/src/odoo_11.0.latest.tar.gz'
+
 
 f_input_user(){
 	if [ -z $my_user ];then	
@@ -91,6 +95,40 @@ f_install_odoo8(){
 	docker-compose build
 }
 
+f_install_odoo11(){
+	f_install_odoo $link_odoo11 odoo-server.conf
+}
+
+f_install_odoo(){	
+	echo "###################################################"
+	f_input_user
+	echo "Instalando docker-compose"
+	apt-get install -y python-pip
+	pip install docker-compose
+	
+	echo "##################################################"
+	echo "Configurando odoo"
+	sudo su $my_user -c "mkdir -p odoo/src odoo2"
+	cd odoo2 && wget $1
+	cd odoo2
+	tar_odoo=$(ls)
+	tar xvfz $tar_odoo
+	for v in $(ls); do
+		if [ $v != $tar_odoo ]; then
+			mv $v/* ../odoo/src
+		fi
+	done
+	cd ../ && rm -r odoo2
+	sudo chown $my_user:$my_user -R odoo/src/*
+	sudo su $my_user -c "mv .env docker-compose.yml Dockerfile ./odoo"
+	sudo su $my_user -c "mv $2 ./odoo/src"
+	cd odoo
+
+	echo "#################################################"
+	echo "Build docker"
+	docker-compose build
+}
+
 f_check_dependency(){
 	echo "####################################################"
 	echo "Verificando Dependencias"
@@ -135,7 +173,7 @@ f_main(){
 	
 	echo "1) Instalar DOCKER"
 	echo "2) Verificar dependencias DOCKER"
-	echo "3) Instalar ODOO 10"
+	echo "3) Instalar ODOO 11"
 	echo "4) Instalar ODOO 8"
 
 	read my_opcion
@@ -148,7 +186,7 @@ f_main(){
 			f_check_dependency
 			;;
 		3)
-			f_install_odoo10
+			f_install_odoo11
 			;;
 		4)
 			f_install_odoo8
