@@ -5,6 +5,7 @@
 
 ** docker stop / docker start : Inicializar o detener contenedor
 ** más infor en: https://gist.github.com/coronadoedgar/ed164b55728f173ee85ca9bb4bced172
+*** correr el servicio de angular cli: ng serve --host 0.0.0.0
 
 Prerequisites:
 https://angular.io/docs/ts/latest/guide/setup.html#!#install-prerequisites
