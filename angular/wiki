@@ -1,2 +1,10 @@
+1 Descargar para Linux (x64) la versión recomenda de nodejs
+2 docker-compose build 
+3 docker-compose run -p 0.0.0.0:4200:4200 app_node
+4 docker exec -it your_container_name bash
+
+** docker stop / docker start : Inicializar o detener contenedor
+** más infor en: https://gist.github.com/coronadoedgar/ed164b55728f173ee85ca9bb4bced172
+
 Prerequisites:
 https://angular.io/docs/ts/latest/guide/setup.html#!#install-prerequisites

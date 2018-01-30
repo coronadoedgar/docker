@@ -1,5 +1,8 @@
 FROM debian:wheezy
 
+ENV BASE_HOME=/opt
+ENV ANGULAR_HOME=/my_apps
+
 RUN set -x; \
 	apt-get update \
 	&& apt-get install -y --no-install-recommends \
@@ -15,7 +18,9 @@ RUN ln -s /usr/local/bin/nodejs/bin/npm /usr/bin/npm
 RUN npm install -g @angular/cli
 
 ENV PATH $PATH:/usr/local/bin/nodejs/lib/node_modules/@angular/cli/bin
+ 
+RUN mkdir -p $BASE_HOME$ANGULAR_HOME
 
-RUN mkdir -p /apps/angular
-ADD ./apps-angular /apps/angular
-WORKDIR /apps/angular
+ADD ./apps_angular $BASE_HOME$ANGULAR_HOME
+
+WORKDIR $BASE_HOME$ANGULAR_HOME

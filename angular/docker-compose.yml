@@ -1,9 +1,7 @@
-version: '2'
+version: '3'
 services:
   app_node:
     build: .
+    entrypoint: /bin/bash
     volumes:
-      - ./apps-angular:/apps/angular
-    ports:
-      - "8080:8000"
-      - "3000:3000"
+     - ./apps_angular:/opt/my_apps
